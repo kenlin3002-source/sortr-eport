@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>氣泡排序</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #52ace0;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e96cb9;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>氣泡排序</h1>
+    <p>請輸入數字（以逗號分隔，例如：5,3,8,6,2）：</p>
+    <input type="text" id="numbers" placeholder="輸入數字">
+    <button id="sortButton">排序</button>
+    <div class="result">
+        <h2>排序結果：</h2>
+        <p id="sortedResult"></p>
+        <p class="error" id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById('sortButton').addEventListener('click', function() {
+            const input = document.getElementById('numbers').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const sortedResult = document.getElementById('sortedResult');
+
+            // 清除之前的錯誤訊息和結果
+            errorMessage.textContent = '';
+            sortedResult.textContent = '';
+
+            // 驗證輸入
+            if (!input) {
+                errorMessage.textContent = '請輸入數字！';
+                return;
+            }
+
+            const numArray = input.split(',').map(num => {
+                const parsed = parseFloat(num.trim());
+                if (isNaN(parsed)) {
+                    errorMessage.textContent = '請確保所有輸入都是有效的數字！';
+                    throw new Error('Invalid input');
+                }
+                return parsed;
+            });
+
+            // 氣泡排序演算法
+            for (let i = 0; i < numArray.length - 1; i++) {
+                for (let j = 0; j < numArray.length - i - 1; j++) {
+                    if (numArray[j] > numArray[j + 1]) {
+                        // 交換數字
+                        const temp = numArray[j];
+                        numArray[j] = numArray[j + 1];
+                        numArray[j + 1] = temp;
+                    }
+                }
+            }
+
+            // 顯示排序結果
+            sortedResult.textContent = numArray.join(', ');
+        });
+    </script>
+</body>
+</html>
