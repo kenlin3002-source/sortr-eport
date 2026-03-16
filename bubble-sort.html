@@ -3,147 +3,810 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氣泡排序</title>
+    <title>氣泡排序 - 程式教學</title>
     <style>
-        /* 全局樣式 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
-            color: #e0e0e0;
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            backdrop-filter: blur(10px);
+            box-sizing: border-box;
         }
 
-        /* 標題樣式 */
-        h1 {
-            color: #00bcd4;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-        }
-
-        /* 輸入框樣式 */
-        input {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.1);
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', 微軟正黑體, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #e0e0e0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 3px solid #00d4ff;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .subtitle {
+            color: #b0b0b0;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
             backdrop-filter: blur(10px);
         }
 
-        input::placeholder {
-            color: #b0b0b0;
+        h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-left: 4px solid #00d4ff;
+            padding-left: 15px;
         }
 
-        /* 按鈕樣式 */
-        button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #00bcd4, #0288d1);
-            color: white;
-            border: none;
+        h3 {
+            color: #64b5f6;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .demo-section {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 4px solid #00d4ff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .code-line {
+            display: block;
+            padding: 4px 0;
+            color: #64b5f6;
+            transition: all 0.2s ease;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .code-line.highlight {
+            background: rgba(255, 212, 0, 0.2);
+            color: #ffd700;
+            padding-left: 5px;
+            border-left: 3px solid #ffd700;
+            font-weight: bold;
+        }
+
+        .code-block code {
+            color: #64b5f6;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-size: 1em;
             transition: all 0.3s ease;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #0288d1, #00bcd4);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6);
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
         }
 
-        /* 結果區域樣式 */
-        .result {
-            margin-top: 20px;
+        input::placeholder {
+            color: #808080;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: linear-gradient(135deg, #666 0%, #555 100%);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .language-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn.active {
+            background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%);
+            color: white;
+            border-color: #00d4ff;
+        }
+
+        .language-btn:hover {
+            border-color: #00d4ff;
+        }
+
+        .visualization {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 5px;
+            height: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, #00d4ff 0%, #0084ff 100%);
+            border-radius: 3px 3px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 30px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            font-size: 0.7em;
+            color: white;
+            padding-bottom: 5px;
+        }
+
+        .bar.sorted {
+            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .bar.comparing {
+            background: linear-gradient(180deg, #ffc107 0%, #ff9800 100%);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .step-info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .step-title {
+            color: #00d4ff;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+        }
+
+        .step-details {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #64b5f6;
+        }
+
+        .step-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .step-counter {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 5px;
+            padding: 10px 15px;
+            color: #00d4ff;
+            font-weight: bold;
+            min-width: 120px;
             text-align: center;
         }
 
-        .result h2 {
-            color: #00bcd4;
-        }
-
-        .error {
-            color: #ff5252;
-            margin-top: 10px;
-        }
-
-        /* 返回首頁連結樣式 */
-        .back-home {
+        .result-box {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            border-radius: 5px;
+            padding: 20px;
             margin-top: 20px;
-            text-decoration: none;
-            color: #00bcd4;
-            font-size: 16px;
-            transition: color 0.3s ease;
+            text-align: center;
+            display: none;
         }
 
-        .back-home:hover {
-            color: #0288d1;
+        .result-box.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+
+        .result-box.error p {
+            color: #ff6b6b;
+        }
+
+        .result-box p {
+            color: #81c784;
+        }
+
+        .complexity-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .complexity-item {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .complexity-item-label {
+            color: #64b5f6;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .complexity-item-value {
+            color: #ffd700;
+            font-size: 1.5em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .visualization {
+                height: 200px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            input {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>氣泡排序</h1>
-    <p>請輸入數字（以逗號分隔，例如：5,3,8,6,2）：</p>
-    <input type="text" id="numbers" placeholder="輸入數字">
-    <button id="sortButton">排序</button>
-    <div class="result">
-        <h2>排序結果：</h2>
-        <p id="sortedResult"></p>
-        <p class="error" id="errorMessage"></p>
+    <div class="container">
+        <header>
+            <h1>🫧 氣泡排序 (Bubble Sort)</h1>
+            <p class="subtitle">交互式步驟演示與程式碼對應</p>
+        </header>
+
+        <!-- 互動演示區 -->
+        <div class="demo-section">
+            <h2>🎮 交互式演示</h2>
+            
+            <div class="input-group">
+                <input type="text" id="arrayInput" placeholder="輸入數字，用逗號分隔 (例: 5,2,8,1,9)" value="5,2,8,1,9,3">
+            </div>
+
+            <div class="controls">
+                <button onclick="startDemo()">開始演示</button>
+                <button onclick="resetDemo()">重置</button>
+            </div>
+
+            <div class="visualization" id="visualization"></div>
+
+            <!-- 步驟控制 -->
+            <div class="step-info" id="stepInfo" style="display:none;">
+                <div class="step-title" id="stepTitle"></div>
+                <div class="step-description" id="stepDescription"></div>
+                <div class="step-details" id="stepDetails"></div>
+            </div>
+
+            <div class="step-controls">
+                <button id="prevBtn" onclick="previousStep()" style="display:none;">⬅️ 上一步</button>
+                <div class="step-counter" id="stepCounter" style="display:none;">第 <span id="currentStep">0</span> / <span id="totalSteps">0</span> 步</div>
+                <button id="nextBtn" onclick="nextStep()" style="display:none;">下一步 ➡️</button>
+            </div>
+
+            <div class="result-box" id="resultBox">
+                <p id="resultText"></p>
+            </div>
+        </div>
+
+        <!-- 左右布局：說明 + 代碼 -->
+        <div class="main-layout">
+            <!-- 演算法說明 -->
+            <div class="card">
+                <h2>📚 演算法概念</h2>
+                <p>氣泡排序是一種簡單的排序演算法，它的基本思想是：</p>
+                <ul style="margin: 15px 0 15px 25px; color: #e0e0e0;">
+                    <li>比較相鄰的兩個元素</li>
+                    <li>如果順序不對則交換它們</li>
+                    <li>重複此過程，直到陣列完全排序</li>
+                </ul>
+                <div style="background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4caf50; padding: 15px; border-radius: 5px; color: #81c784;">
+                    💡 <strong>核心特點：</strong> 氣泡排序通過相鄰元素的比較和交換，逐漸將大的元素「冒出」到陣列末尾。
+                </div>
+
+                <h3 style="margin-top: 25px;">⏱️ 複雜度分析</h3>
+                <div class="complexity-info">
+                    <div class="complexity-item">
+                        <div class="complexity-item-label">時間複雜度</div>
+                        <div class="complexity-item-value">O(n²)</div>
+                    </div>
+                    <div class="complexity-item">
+                        <div class="complexity-item-label">空間複雜度</div>
+                        <div class="complexity-item-value">O(1)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 代碼對應區 -->
+            <div class="card">
+                <h2>💻 程式碼對應</h2>
+                
+                <div class="language-selector">
+                    <button class="language-btn active" onclick="switchLanguage('js')">JavaScript</button>
+                    <button class="language-btn" onclick="switchLanguage('py')">Python</button>
+                    <button class="language-btn" onclick="switchLanguage('cpp')">C++</button>
+                    <button class="language-btn" onclick="switchLanguage('c')">C</button>
+                </div>
+
+                <!-- JavaScript 代碼 -->
+                <div id="jsCode" class="code-block" style="display:block;">
+<span class="code-line" id="js-1"><span style="color:#64b5f6;">function</span> bubbleSort(arr) {</span>
+<span class="code-line" id="js-2">    <span style="color:#64b5f6;">const</span> n = arr.length;</span>
+<span class="code-line" id="js-3">    </span>
+<span class="code-line" id="js-4">    <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">let</span> i = 0; i &lt; n - 1; i++) {</span>
+<span class="code-line" id="js-5">        <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">let</span> j = 0; j &lt; n - i - 1; j++) {</span>
+<span class="code-line" id="js-6">            <span style="color:#ffd700;">if</span> (arr[j] &gt; arr[j + 1]) {</span>
+<span class="code-line" id="js-7">                <span style="color:#ffd700;">let</span> temp = arr[j];</span>
+<span class="code-line" id="js-8">                arr[j] = arr[j + 1];</span>
+<span class="code-line" id="js-9">                arr[j + 1] = temp;</span>
+<span class="code-line" id="js-10">            }</span>
+<span class="code-line" id="js-11">        }</span>
+<span class="code-line" id="js-12">    }</span>
+<span class="code-line" id="js-13">    <span style="color:#ffd700;">return</span> arr;</span>
+<span class="code-line" id="js-14">}</span>
+                </div>
+
+                <!-- Python 代碼 -->
+                <div id="pyCode" class="code-block" style="display:none;">
+<span class="code-line" id="py-1"><span style="color:#64b5f6;">def</span> bubble_sort(arr):</span>
+<span class="code-line" id="py-2">    n = <span style="color:#ffd700;">len</span>(arr)</span>
+<span class="code-line" id="py-3">    </span>
+<span class="code-line" id="py-4">    <span style="color:#ffd700;">for</span> i <span style="color:#ffd700;">in</span> <span style="color:#ffd700;">range</span>(n - 1):</span>
+<span class="code-line" id="py-5">        <span style="color:#ffd700;">for</span> j <span style="color:#ffd700;">in</span> <span style="color:#ffd700;">range</span>(n - i - 1):</span>
+<span class="code-line" id="py-6">            <span style="color:#ffd700;">if</span> arr[j] &gt; arr[j + 1]:</span>
+<span class="code-line" id="py-7">                arr[j], arr[j + 1] = arr[j + 1], arr[j]</span>
+<span class="code-line" id="py-8">    </span>
+<span class="code-line" id="py-9">    <span style="color:#ffd700;">return</span> arr</span>
+                </div>
+
+                <!-- C++ 代碼 -->
+                <div id="cppCode" class="code-block" style="display:none;">
+<span class="code-line" id="cpp-1"><span style="color:#64b5f6;">void</span> bubbleSort(vector&lt;<span style="color:#64b5f6;">int</span>&gt;&amp; arr) {</span>
+<span class="code-line" id="cpp-2">    <span style="color:#64b5f6;">int</span> n = arr.size();</span>
+<span class="code-line" id="cpp-3">    </span>
+<span class="code-line" id="cpp-4">    <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">int</span> i = 0; i &lt; n - 1; i++) {</span>
+<span class="code-line" id="cpp-5">        <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">int</span> j = 0; j &lt; n - i - 1; j++) {</span>
+<span class="code-line" id="cpp-6">            <span style="color:#ffd700;">if</span> (arr[j] &gt; arr[j + 1]) {</span>
+<span class="code-line" id="cpp-7">                swap(arr[j], arr[j + 1]);</span>
+<span class="code-line" id="cpp-8">            }</span>
+<span class="code-line" id="cpp-9">        }</span>
+<span class="code-line" id="cpp-10">    }</span>
+<span class="code-line" id="cpp-11">}</span>
+                </div>
+
+                <!-- C 代碼 -->
+                <div id="cCode" class="code-block" style="display:none;">
+<span class="code-line" id="c-1"><span style="color:#64b5f6;">void</span> bubbleSort(<span style="color:#64b5f6;">int</span> arr[], <span style="color:#64b5f6;">int</span> n) {</span>
+<span class="code-line" id="c-2">    <span style="color:#64b5f6;">int</span> i, j, temp;</span>
+<span class="code-line" id="c-3">    </span>
+<span class="code-line" id="c-4">    <span style="color:#ffd700;">for</span> (i = 0; i &lt; n - 1; i++) {</span>
+<span class="code-line" id="c-5">        <span style="color:#ffd700;">for</span> (j = 0; j &lt; n - i - 1; j++) {</span>
+<span class="code-line" id="c-6">            <span style="color:#ffd700;">if</span> (arr[j] &gt; arr[j + 1]) {</span>
+<span class="code-line" id="c-7">                temp = arr[j];</span>
+<span class="code-line" id="c-8">                arr[j] = arr[j + 1];</span>
+<span class="code-line" id="c-9">                arr[j + 1] = temp;</span>
+<span class="code-line" id="c-10">            }</span>
+<span class="code-line" id="c-11">        }</span>
+<span class="code-line" id="c-12">    }</span>
+<span class="code-line" id="c-13">}</span>
+<span class="code-line" id="c-14">    </span>
+<span class="code-line" id="c-15"><span style="color:#64b5f6;">int</span> main() {</span>
+<span class="code-line" id="c-16">    <span style="color:#64b5f6;">int</span> arr[] = {5, 2, 8, 1, 9, 3};</span>
+<span class="code-line" id="c-17">    <span style="color:#64b5f6;">int</span> n = <span style="color:#ffd700;">sizeof</span>(arr) / <span style="color:#ffd700;">sizeof</span>(arr[0]);</span>
+<span class="code-line" id="c-18">    </span>
+<span class="code-line" id="c-19">    bubbleSort(arr, n);</span>
+<span class="code-line" id="c-20">    <span style="color:#ffd700;">return</span> 0;</span>
+<span class="code-line" id="c-21">}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 演算法步驟說明 -->
+        <div class="card">
+            <h2>📝 演算法步驟說明</h2>
+            <ol style="margin: 15px 0 15px 25px; color: #e0e0e0;">
+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">外層循環初始化 (i)</strong>: 控制排序的輪數，每輪確定一個最大元素</li>
+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">內層循環 (j)</strong>: 掃描未排序部分，比較相鄰元素</li>
+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">比較操作</strong>: arr[j] > arr[j+1] 來判斷是否需要交換</li>
+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">交換操作</strong>: 交換相鄰的兩個元素，讓大的元素往後移動</li>
+                <li><strong style="color:#00d4ff;">邊界移動</strong>: 每輪後已排序區域擴大，重複直到陣列排序完成</li>
+            </ol>
+        </div>
     </div>
-    <a href="index.html" class="back-home">返回首頁</a>
 
     <script>
-        document.getElementById('sortButton').addEventListener('click', function() {
-            const input = document.getElementById('numbers').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const sortedResult = document.getElementById('sortedResult');
+        let currentArray = [];
+        let sortSteps = [];
+        let currentStepIndex = 0;
+        let currentLanguage = 'js';
 
-            // 清除之前的錯誤訊息和結果
-            errorMessage.textContent = '';
-            sortedResult.textContent = '';
-
-            // 驗證輸入
-            if (!input) {
-                errorMessage.textContent = '請輸入數字！';
-                return;
+        class SortStep {
+            constructor(description, title, details, comparingIndices = [], sortedIndices = [], highlightLines = []) {
+                this.description = description;
+                this.title = title;
+                this.details = details;
+                this.comparingIndices = comparingIndices;
+                this.sortedIndices = sortedIndices;
+                this.highlightLines = highlightLines;
+                this.arrayState = [...currentArray];
             }
+        }
 
-            const numArray = input.split(',').map(num => {
-                const parsed = parseFloat(num.trim());
-                if (isNaN(parsed)) {
-                    errorMessage.textContent = '請確保所有輸入都是有效的數字！';
-                    throw new Error('Invalid input');
+        function parseInput() {
+            const input = document.getElementById('arrayInput').value;
+            if (!input.trim()) {
+                showError('請輸入數值');
+                return null;
+            }
+            try {
+                const arr = input.split(',').map(x => {
+                    const num = parseInt(x.trim());
+                    if (isNaN(num)) throw new Error('包含無效數值');
+                    return num;
+                });
+                if (arr.length > 20) {
+                    showError('陣列長度不能超過 20');
+                    return null;
                 }
-                return parsed;
-            });
+                return arr;
+            } catch (e) {
+                showError('輸入格式錯誤: ' + e.message);
+                return null;
+            }
+        }
 
-            // 氣泡排序演算法
-            for (let i = 0; i < numArray.length - 1; i++) {
-                for (let j = 0; j < numArray.length - i - 1; j++) {
-                    if (numArray[j] > numArray[j + 1]) {
-                        // 交換數字
-                        const temp = numArray[j];
-                        numArray[j] = numArray[j + 1];
-                        numArray[j + 1] = temp;
+        function generateSortSteps() {
+            sortSteps = [];
+            const n = currentArray.length;
+
+            // 初始狀態
+            sortSteps.push(new SortStep(
+                '準備開始氣泡排序演算法',
+                '✨ 初始化',
+                `陣列: [${currentArray.join(', ')}], n = ${n}`,
+                [],
+                [],
+                ['js-1', 'js-2', 'py-1', 'py-2', 'cpp-1', 'cpp-2', 'c-1', 'c-2']
+            ));
+
+            let sortedIndices = [];
+            
+            for (let i = 0; i < n - 1; i++) {
+                // 開始外層迴圈
+                sortSteps.push(new SortStep(
+                    `開始第 ${i + 1} 輪排序，找出最大元素`,
+                    `🔄 外層迴圈 (i = ${i})`,
+                    `當前輪次: ${i}, 比較範圍: [0, ${n - i - 1}]`,
+                    [],
+                    [...sortedIndices],
+                    ['js-4', 'js-5', 'py-4', 'py-5', 'cpp-4', 'cpp-5', 'c-4', 'c-5']
+                ));
+
+                for (let j = 0; j < n - i - 1; j++) {
+                    // 比較相鄰元素
+                    sortSteps.push(new SortStep(
+                        `比較 arr[${j}] = ${currentArray[j]} 與 arr[${j + 1}] = ${currentArray[j + 1]}`,
+                        `🔍 比較 (j = ${j})`,
+                        `比較: arr[${j}] (${currentArray[j]}) > arr[${j + 1}] (${currentArray[j + 1]}) ? ${currentArray[j] > currentArray[j + 1] ? '是' : '否'}`,
+                        [j, j + 1],
+                        [...sortedIndices],
+                        ['js-6', 'py-6', 'cpp-6', 'c-6']
+                    ));
+
+                    // 如果需要交換
+                    if (currentArray[j] > currentArray[j + 1]) {
+                        sortSteps.push(new SortStep(
+                            `執行交換: arr[${j}] ↔ arr[${j + 1}], 即 ${currentArray[j]} ↔ ${currentArray[j + 1]}`,
+                            `🔀 執行交換`,
+                            `交換位置 ${j} 和 ${j + 1}`,
+                            [j, j + 1],
+                            [...sortedIndices],
+                            ['js-7', 'js-8', 'js-9', 'py-7', 'cpp-7', 'c-7', 'c-8', 'c-9']
+                        ));
+
+                        [currentArray[j], currentArray[j + 1]] = [currentArray[j + 1], currentArray[j]];
                     }
                 }
+
+                // 本輪完成，最大元素已確定
+                sortedIndices.push(n - 1 - i);
+                sortSteps.push(new SortStep(
+                    `第 ${i + 1} 輪排序完成，最大元素已移至位置 ${n - 1 - i}`,
+                    `✓ 第 ${i + 1} 輪完成`,
+                    `當前排序進度: [${currentArray.join(', ')}]`,
+                    [],
+                    [...sortedIndices],
+                    ['js-12', 'py-4', 'cpp-10', 'c-12']
+                ));
             }
 
-            // 顯示排序結果
-            sortedResult.textContent = numArray.join(', ');
+            // 完成排序
+            sortedIndices.push(0);
+            sortSteps.push(new SortStep(
+                '排序完成！所有元素都已放在正確位置上',
+                '🎉 排序完成',
+                `最終結果: [${currentArray.join(', ')}]`,
+                [],
+                sortedIndices,
+                ['js-13', 'py-9', 'cpp-11', 'c-12']
+            ));
+        }
+
+        function startDemo() {
+            const arr = parseInput();
+            if (!arr) return;
+
+            currentArray = [...arr];
+            currentStepIndex = 0;
+            generateSortSteps();
+
+            document.getElementById('stepInfo').style.display = 'block';
+            document.getElementById('stepCounter').style.display = 'block';
+            document.getElementById('prevBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'block';
+            document.getElementById('resultBox').style.display = 'none';
+
+            displayStep(0);
+        }
+
+        function displayStep(index) {
+            if (index < 0 || index >= sortSteps.length) return;
+
+            currentStepIndex = index;
+            const step = sortSteps[index];
+
+            // 更新視覺化
+            drawBars(step.arrayState, step.comparingIndices, step.sortedIndices);
+
+            // 更新步驟信息
+            document.getElementById('stepTitle').textContent = step.title;
+            document.getElementById('stepDescription').textContent = step.description;
+            document.getElementById('stepDetails').textContent = step.details;
+
+            // 更新計數器
+            document.getElementById('currentStep').textContent = index + 1;
+            document.getElementById('totalSteps').textContent = sortSteps.length;
+
+            // 更新按鈕狀態
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === sortSteps.length - 1;
+
+            // 高亮代碼
+            highlightCode(step.highlightLines);
+
+            // 最後一步顯示完成信息
+            if (index === sortSteps.length - 1) {
+                document.getElementById('resultBox').classList.remove('error');
+                document.getElementById('resultBox').style.display = 'block';
+                document.getElementById('resultText').textContent = '✅ 排序完成！' + step.details;
+            }
+        }
+
+        function nextStep() {
+            if (currentStepIndex < sortSteps.length - 1) {
+                displayStep(currentStepIndex + 1);
+            }
+        }
+
+        function previousStep() {
+            if (currentStepIndex > 0) {
+                displayStep(currentStepIndex - 1);
+            }
+        }
+
+        function drawBars(arr, comparing = [], sorted = []) {
+            const visualization = document.getElementById('visualization');
+            visualization.innerHTML = '';
+
+            const max = Math.max(...arr);
+            const min = Math.min(...arr);
+            const range = max - min || 1;
+
+            arr.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                const height = ((value - min + 1) / (range + 1)) * 100;
+                bar.style.height = height + '%';
+                bar.textContent = value;
+
+                if (sorted.includes(index)) {
+                    bar.classList.add('sorted');
+                } else if (comparing.includes(index)) {
+                    bar.classList.add('comparing');
+                }
+
+                visualization.appendChild(bar);
+            });
+        }
+
+        function highlightCode(lineIds) {
+            // 移除所有高亮
+            document.querySelectorAll('.code-line').forEach(line => {
+                line.classList.remove('highlight');
+            });
+
+            // 添加新的高亮
+            lineIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('highlight');
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+
+            // 切換按鈕狀態
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 切換代碼顯示
+            document.getElementById('jsCode').style.display = lang === 'js' ? 'block' : 'none';
+            document.getElementById('pyCode').style.display = lang === 'py' ? 'block' : 'none';
+            document.getElementById('cppCode').style.display = lang === 'cpp' ? 'block' : 'none';
+            document.getElementById('cCode').style.display = lang === 'c' ? 'block' : 'none';
+
+            // 如果已開始演示，重新高亮當前步驟的代碼
+            if (sortSteps.length > 0 && currentStepIndex < sortSteps.length) {
+                highlightCode(sortSteps[currentStepIndex].highlightLines);
+            }
+        }
+
+        function showError(message) {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.classList.add('error');
+            resultBox.style.display = 'block';
+            document.getElementById('resultText').textContent = '❌ ' + message;
+        }
+
+        function resetDemo() {
+            document.getElementById('arrayInput').value = '5,2,8,1,9,3';
+            currentArray = [];
+            sortSteps = [];
+            currentStepIndex = 0;
+            document.getElementById('stepInfo').style.display = 'none';
+            document.getElementById('stepCounter').style.display = 'none';
+            document.getElementById('prevBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('visualization').innerHTML = '';
+            document.querySelectorAll('.code-line').forEach(line => {
+                line.classList.remove('highlight');
+            });
+        }
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            resetDemo();
         });
     </script>
 </body>
