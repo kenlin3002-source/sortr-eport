@@ -1,232 +1,178 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>排序演算法教學 - 官方網站</title>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		body {
-			font-family: 'Segoe UI', 'Microsoft JhengHei', 微軟正黑體, sans-serif;
-			background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
-			color: #e0e0e0;
-			line-height: 1.6;
-			min-height: 100vh;
-			padding: 0;
-		}
-
-		/* 導航條 */
-		nav {
-			background: rgba(0, 0, 0, 0.8);
-			backdrop-filter: blur(10px);
-			padding: 20px 0;
-			position: sticky;
-			top: 0;
-			border-bottom: 2px solid #00d4ff;
-			z-index: 1000;
-		}
-
-		.nav-container {
-			max-width: 1200px;
-			margin: 0 auto;
-			padding: 0 20px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		.logo {
-			font-size: 1.8em;
-			color: #00d4ff;
-			font-weight: bold;
-			text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-		}
-
-		nav ul {
-			display: flex;
-			list-style: none;
-			gap: 30px;
-		}
-
-		nav a {
-			color: #e0e0e0;
-			text-decoration: none;
-			transition: color 0.3s;
-			font-size: 1em;
-		}
-
-		nav a:hover {
-			color: #00d4ff;
-		}
-
-		/* 首頁主區域 */
-		.hero {
-			background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-			padding: 100px 20px;
-			text-align: center;
-		}
-
-		.hero-content {
-			max-width: 1000px;
-			margin: 0 auto;
-		}
-
-		.hero h1 {
-			font-size: 3.5em;
-			color: #00d4ff;
-			margin-bottom: 20px;
-			text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-		}
-
-		.hero p {
-			font-size: 1.3em;
-			color: #b0b0b0;
-			margin-bottom: 40px;
-		}
-
-		/* 卡片容器 */
-		.cards-container {
-			max-width: 1200px;
-			margin: 60px auto;
-			padding: 0 20px;
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-			gap: 30px;
-		}
-
-		/* 卡片樣式 */
-		.card {
-			background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 150, 200, 0.05) 100%);
-			border: 2px solid rgba(0, 212, 255, 0.3);
-			border-radius: 15px;
-			padding: 40px;
-			text-align: center;
-			transition: all 0.3s ease;
-			backdrop-filter: blur(10px);
-			cursor: pointer;
-		}
-
-		.card:hover {
-			transform: translateY(-10px);
-			border-color: #00d4ff;
-			box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
-		}
-
-		.card-icon {
-			font-size: 3em;
-			margin-bottom: 20px;
-		}
-
-		.card h2 {
-			font-size: 1.8em;
-			color: #00d4ff;
-			margin-bottom: 15px;
-		}
-
-		.card p {
-			color: #b0b0b0;
-			font-size: 1em;
-			margin-bottom: 25px;
-			line-height: 1.6;
-		}
-
-		.card a {
-			display: inline-block;
-			background: linear-gradient(135deg, #00d4ff 0%, #0096c8 100%);
-			color: #000;
-			padding: 12px 30px;
-			border-radius: 8px;
-			text-decoration: none;
-			font-weight: bold;
-			transition: all 0.3s ease;
-		}
-
-		.card a:hover {
-			transform: scale(1.05);
-			box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
-		}
-
-		/* 頁腳 */
-		footer {
-			background: rgba(0, 0, 0, 0.8);
-			border-top: 2px solid #00d4ff;
-			padding: 30px 20px;
-			text-align: center;
-			color: #999;
-			margin-top: 60px;
-		}
-
-		footer p {
-			margin: 5px 0;
-		}
-
-		/* 響應式設計 */
-		@media (max-width: 768px) {
-			.hero h1 {
-				font-size: 2em;
-			}
-
-			.cards-container {
-				grid-template-columns: 1fr;
-			}
-
-			nav ul {
-				gap: 15px;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序演算法教學網站</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid #00d4ff;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8em;
+            color: #00d4ff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav a { color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: #00d4ff; }
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+        .hero-content { max-width: 1000px; margin: 0 auto; }
+        .hero h1 {
+            font-size: 3.5em;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+        .hero p { font-size: 1.3em; color: #b0b0b0; margin-bottom: 40px; }
+        .cards-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 150, 200, 0.05) 100%);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        .card-icon { font-size: 3em; margin-bottom: 20px; }
+        .card h2 { font-size: 1.8em; color: #00d4ff; margin-bottom: 15px; }
+        .card p { color: #b0b0b0; margin-bottom: 18px; }
+        .card a {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096c8 100%);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .card a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        .about {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .about-box {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+        }
+        .about-box h2 { color: #00d4ff; margin-bottom: 15px; }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid #00d4ff;
+            padding: 30px 20px;
+            text-align: center;
+            color: #999;
+            margin-top: 60px;
+        }
+        footer p { margin: 5px 0; }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2em; }
+            nav ul { gap: 15px; }
+        }
+    </style>
 </head>
 <body>
-	<!-- 導航條 -->
-	<nav>
-		<div class="nav-container">
-			<div class="logo">🎓 排序演算法</div>
-			<ul>
-				<li><a href="index.html">首頁</a></li>
-				<li><a href="#algorithms">演算法</a></li>
-				<li><a href="#about">關於</a></li>
-			</ul>
-		</div>
-	</nav>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">排序演算法</div>
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="#algorithms">演算法</a></li>
+                <li><a href="#about">關於</a></li>
+            </ul>
+        </div>
+    </nav>
 
-	<!-- 首頁主區域 -->
-	<section class="hero">
-		<div class="hero-content">
-			<h1>排序演算法教學平台</h1>
-			<p>學習和可視化各種經典排序演算法，深入理解演算法的工作原理</p>
-		</div>
-	</section>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>排序演算法互動教學</h1>
+            <p>用視覺化方式理解排序流程，從每一步的比較、交換到最終結果，一頁一頁學會常見排序法。</p>
+        </div>
+    </section>
 
-	<!-- 演算法卡片 -->
-	<section class="cards-container" id="algorithms">
-		<!-- 氣泡排序 -->
-		<div class="card">
-			<div class="card-icon">🫧</div>
-			<h2>氣泡排序</h2>
-			<p>氣泡排序是最簡單的排序演算法之一。通過重複步驟遍歷列表，比較相鄰元素，並在必要時交換它們。</p>
-			<p><strong>時間複雜度：</strong> O(n²)</p>
-			<a href="bubble-sort.html">前往互動示範 →</a>
-		</div>
+    <section class="cards-container" id="algorithms">
+        <div class="card">
+            <div class="card-icon">🫧</div>
+            <h2>泡沫排序</h2>
+            <p>透過相鄰元素反覆比較與交換，將較大的值慢慢推到陣列尾端。</p>
+            <p><strong>時間複雜度：</strong> O(n²)</p>
+            <a href="bubble-sort.html">前往教學頁面</a>
+        </div>
 
-		<!-- 選擇排序 -->
-		<div class="card">
-			<div class="card-icon">📌</div>
-			<h2>選擇排序</h2>
-			<p>選擇排序通過在未排序部分找出最小元素，將其移至已排序部分的末端。直觀且容易理解的演算法。</p>
-			<p><strong>時間複雜度：</strong> O(n²)</p>
-			<a href="select-sort.html">前往互動示範 →</a>
-		</div>
-	</section>
+        <div class="card">
+            <div class="card-icon">🎯</div>
+            <h2>選擇排序</h2>
+            <p>每一輪找出未排序區間中的最小值，再放到正確位置。</p>
+            <p><strong>時間複雜度：</strong> O(n²)</p>
+            <a href="select-sort.html">前往教學頁面</a>
+        </div>
 
-	<!-- 頁腳 -->
-	<footer>
-		<p>&copy; 2024 排序演算法教學平台 | 學習排序，理解演算法</p>
-		<p>互動式教學工具 | 可視化演算法執行過程</p>
-	</footer>
+        <div class="card">
+            <div class="card-icon">🧩</div>
+            <h2>合併排序</h2>
+            <p>先把問題拆成更小的子陣列，再逐步合併成有序結果，體驗分治法的思路。</p>
+            <p><strong>時間複雜度：</strong> O(n log n)</p>
+            <a href="merge-sort.html">前往教學頁面</a>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-box">
+            <h2>這個網站能做什麼？</h2>
+            <p>每個排序頁面都提供輸入框、步驟切換、程式碼高亮與複雜度說明，方便拿來上課展示或自行練習。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 排序演算法教學網站</p>
+        <p>包含泡沫排序、選擇排序與合併排序示範</p>
+    </footer>
 </body>
 </html>
