@@ -1,913 +1,305 @@
-diff --git a/c:\Users\林恩廷\Downloads\sort-report\merge-sort.html b/c:\Users\林恩廷\Downloads\sort-report\merge-sort.html
-new file mode 100644
---- /dev/null
-+++ b/c:\Users\林恩廷\Downloads\sort-report\merge-sort.html
-@@ -0,0 +1,908 @@
-+<!DOCTYPE html>
-+<html lang="zh-TW">
-+<head>
-+    <meta charset="UTF-8">
-+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-+    <title>合併排序 - 視覺化教學</title>
-+    <style>
-+        * {
-+            margin: 0;
-+            padding: 0;
-+            box-sizing: border-box;
-+        }
-+
-+        body {
-+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
-+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-+            color: #e0e0e0;
-+            line-height: 1.6;
-+            min-height: 100vh;
-+            padding: 20px;
-+        }
-+
-+        .container {
-+            max-width: 1400px;
-+            margin: 0 auto;
-+        }
-+
-+        header {
-+            text-align: center;
-+            margin-bottom: 40px;
-+            padding: 30px 0;
-+            border-bottom: 3px solid #00d4ff;
-+        }
-+
-+        h1 {
-+            font-size: 2.5em;
-+            color: #00d4ff;
-+            margin-bottom: 10px;
-+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-+        }
-+
-+        .subtitle {
-+            color: #b0b0b0;
-+            font-size: 1.1em;
-+            margin-bottom: 20px;
-+        }
-+
-+        .main-layout {
-+            display: grid;
-+            grid-template-columns: 1fr 1fr;
-+            gap: 25px;
-+            margin-bottom: 25px;
-+        }
-+
-+        .card,
-+        .demo-section {
-+            background: rgba(30, 30, 50, 0.8);
-+            border: 1px solid rgba(0, 212, 255, 0.3);
-+            border-radius: 10px;
-+            padding: 25px;
-+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
-+            backdrop-filter: blur(10px);
-+        }
-+
-+        h2 {
-+            color: #00d4ff;
-+            margin-bottom: 15px;
-+            font-size: 1.8em;
-+            border-left: 4px solid #00d4ff;
-+            padding-left: 15px;
-+        }
-+
-+        h3 {
-+            color: #64b5f6;
-+            margin-top: 15px;
-+            margin-bottom: 10px;
-+            font-size: 1.3em;
-+        }
-+
-+        .code-block {
-+            background: rgba(0, 0, 0, 0.5);
-+            border-left: 4px solid #00d4ff;
-+            padding: 15px;
-+            border-radius: 5px;
-+            overflow-x: auto;
-+            margin-bottom: 15px;
-+            font-family: 'Courier New', monospace;
-+            font-size: 0.9em;
-+            line-height: 1.6;
-+        }
-+
-+        .code-line {
-+            display: block;
-+            padding: 4px 0 4px 10px;
-+            color: #64b5f6;
-+            transition: all 0.2s ease;
-+            position: relative;
-+        }
-+
-+        .code-line.highlight {
-+            background: rgba(255, 212, 0, 0.2);
-+            color: #ffd700;
-+            padding-left: 5px;
-+            border-left: 3px solid #ffd700;
-+            font-weight: bold;
-+        }
-+
-+        .input-group,
-+        .controls,
-+        .language-selector,
-+        .step-controls {
-+            display: flex;
-+            gap: 10px;
-+            margin-bottom: 20px;
-+            flex-wrap: wrap;
-+        }
-+
-+        input {
-+            flex: 1;
-+            min-width: 150px;
-+            padding: 12px;
-+            background: rgba(255, 255, 255, 0.1);
-+            border: 1px solid rgba(0, 212, 255, 0.5);
-+            border-radius: 5px;
-+            color: #e0e0e0;
-+            font-size: 1em;
-+            transition: all 0.3s ease;
-+        }
-+
-+        input:focus {
-+            outline: none;
-+            background: rgba(255, 255, 255, 0.15);
-+            border-color: #00d4ff;
-+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-+        }
-+
-+        input::placeholder {
-+            color: #808080;
-+        }
-+
-+        button {
-+            padding: 12px 25px;
-+            background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%);
-+            color: #fff;
-+            border: none;
-+            border-radius: 5px;
-+            cursor: pointer;
-+            font-size: 1em;
-+            font-weight: bold;
-+            transition: all 0.3s ease;
-+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-+        }
-+
-+        button:hover:not(:disabled) {
-+            transform: translateY(-2px);
-+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-+        }
-+
-+        button:disabled {
-+            background: linear-gradient(135deg, #666 0%, #555 100%);
-+            cursor: not-allowed;
-+            box-shadow: none;
-+            opacity: 0.6;
-+        }
-+
-+        .language-btn {
-+            padding: 10px 20px;
-+            background: rgba(255, 255, 255, 0.1);
-+            color: #b0b0b0;
-+            border: 1px solid rgba(0, 212, 255, 0.3);
-+            border-radius: 5px;
-+            cursor: pointer;
-+            font-size: 0.95em;
-+            font-weight: bold;
-+            transition: all 0.3s ease;
-+            box-shadow: none;
-+        }
-+
-+        .language-btn.active {
-+            background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%);
-+            color: white;
-+            border-color: #00d4ff;
-+        }
-+
-+        .visualization {
-+            display: flex;
-+            align-items: flex-end;
-+            justify-content: center;
-+            gap: 5px;
-+            height: 250px;
-+            background: rgba(0, 0, 0, 0.3);
-+            border-radius: 5px;
-+            padding: 20px;
-+            margin-bottom: 20px;
-+        }
-+
-+        .bar {
-+            flex: 1;
-+            background: linear-gradient(180deg, #00d4ff 0%, #0084ff 100%);
-+            border-radius: 3px 3px 0 0;
-+            transition: all 0.3s ease;
-+            min-width: 30px;
-+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-+            display: flex;
-+            align-items: flex-end;
-+            justify-content: center;
-+            font-size: 0.7em;
-+            color: white;
-+            padding-bottom: 5px;
-+            position: relative;
-+        }
-+
-+        .bar.comparing {
-+            background: linear-gradient(180deg, #ffc107 0%, #ff9800 100%);
-+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
-+        }
-+
-+        .bar.merging {
-+            background: linear-gradient(180deg, #ab47bc 0%, #7b1fa2 100%);
-+            box-shadow: 0 0 10px rgba(171, 71, 188, 0.5);
-+        }
-+
-+        .bar.sorted {
-+            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
-+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-+        }
-+
-+        .step-info {
-+            background: rgba(0, 212, 255, 0.1);
-+            border: 1px solid rgba(0, 212, 255, 0.3);
-+            border-radius: 5px;
-+            padding: 15px;
-+            margin-bottom: 20px;
-+            color: #e0e0e0;
-+        }
-+
-+        .step-title {
-+            color: #00d4ff;
-+            font-size: 1.1em;
-+            font-weight: bold;
-+            margin-bottom: 8px;
-+        }
-+
-+        .step-description {
-+            color: #b0b0b0;
-+            margin-bottom: 8px;
-+        }
-+
-+        .step-details {
-+            background: rgba(0, 0, 0, 0.3);
-+            padding: 10px;
-+            border-radius: 3px;
-+            font-family: 'Courier New', monospace;
-+            font-size: 0.9em;
-+            color: #64b5f6;
-+        }
-+
-+        .step-counter {
-+            background: rgba(0, 212, 255, 0.2);
-+            border: 1px solid rgba(0, 212, 255, 0.3);
-+            border-radius: 5px;
-+            padding: 10px 15px;
-+            color: #00d4ff;
-+            font-weight: bold;
-+            min-width: 120px;
-+            text-align: center;
-+        }
-+
-+        .result-box {
-+            background: rgba(76, 175, 80, 0.2);
-+            border: 1px solid rgba(76, 175, 80, 0.5);
-+            border-radius: 5px;
-+            padding: 20px;
-+            margin-top: 20px;
-+            text-align: center;
-+            display: none;
-+        }
-+
-+        .result-box.error {
-+            background: rgba(244, 67, 54, 0.2);
-+            border: 1px solid rgba(244, 67, 54, 0.5);
-+        }
-+
-+        .result-box p {
-+            color: #81c784;
-+        }
-+
-+        .result-box.error p {
-+            color: #ff6b6b;
-+        }
-+
-+        .complexity-info {
-+            display: grid;
-+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-+            gap: 15px;
-+            margin-top: 20px;
-+        }
-+
-+        .complexity-item {
-+            background: rgba(0, 212, 255, 0.1);
-+            border: 1px solid rgba(0, 212, 255, 0.3);
-+            padding: 15px;
-+            border-radius: 5px;
-+            text-align: center;
-+        }
-+
-+        .complexity-item-label {
-+            color: #64b5f6;
-+            font-size: 0.9em;
-+            margin-bottom: 5px;
-+        }
-+
-+        .complexity-item-value {
-+            color: #ffd700;
-+            font-size: 1.5em;
-+            font-weight: bold;
-+            font-family: 'Courier New', monospace;
-+        }
-+
-+        @media (max-width: 1200px) {
-+            .main-layout {
-+                grid-template-columns: 1fr;
-+            }
-+        }
-+
-+        @media (max-width: 768px) {
-+            h1 {
-+                font-size: 1.8em;
-+            }
-+
-+            .visualization {
-+                height: 200px;
-+            }
-+
-+            .input-group {
-+                flex-direction: column;
-+            }
-+
-+            input {
-+                min-width: 100%;
-+            }
-+        }
-+    </style>
-+</head>
-+<body>
-+    <div class="container">
-+        <header>
-+            <h1>🧩 合併排序 (Merge Sort)</h1>
-+            <p class="subtitle">比照選擇排序頁面的互動方式，逐步展示分割與合併的完整過程。</p>
-+        </header>
-+
-+        <div class="demo-section">
-+            <h2>🔍 互動示範</h2>
-+
-+            <div class="input-group">
-+                <input type="text" id="arrayInput" placeholder="請輸入整數，以逗號分隔，例如 5,2,8,1,9,3" value="5,2,8,1,9,3">
-+            </div>
-+
-+            <div class="controls">
-+                <button onclick="startDemo()">開始排序</button>
-+                <button onclick="resetDemo()">重設</button>
-+            </div>
-+
-+            <div class="visualization" id="visualization"></div>
-+
-+            <div class="step-info" id="stepInfo" style="display:none;">
-+                <div class="step-title" id="stepTitle"></div>
-+                <div class="step-description" id="stepDescription"></div>
-+                <div class="step-details" id="stepDetails"></div>
-+            </div>
-+
-+            <div class="step-controls">
-+                <button id="prevBtn" onclick="previousStep()" style="display:none;">上一個步驟</button>
-+                <div class="step-counter" id="stepCounter" style="display:none;">步驟 <span id="currentStep">0</span> / <span id="totalSteps">0</span></div>
-+                <button id="nextBtn" onclick="nextStep()" style="display:none;">下一個步驟</button>
-+            </div>
-+
-+            <div class="result-box" id="resultBox">
-+                <p id="resultText"></p>
-+            </div>
-+        </div>
-+
-+        <div class="main-layout">
-+            <div class="card">
-+                <h2>📘 演算法說明</h2>
-+                <p>合併排序是一種經典的分治法排序演算法，先把陣列一直切成左右兩半，直到每段只剩 1 個元素，再依序把小段合併成大段。</p>
-+                <ul style="margin: 15px 0 15px 25px; color: #e0e0e0;">
-+                    <li>先分割：把大問題拆成多個小問題。</li>
-+                    <li>再合併：比較左右子陣列的最前面元素，依序放回原陣列。</li>
-+                    <li>適合處理大量資料，時間效率通常優於 O(n²) 的簡單排序法。</li>
-+                </ul>
-+                <div style="background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4caf50; padding: 15px; border-radius: 5px; color: #81c784;">
-+                    提示：這個頁面會把「切分範圍」與「合併結果」拆成多個步驟，方便觀察分治法怎麼逐步完成排序。
-+                </div>
-+
-+                <h3 style="margin-top: 25px;">🧮 複雜度分析</h3>
-+                <div class="complexity-info">
-+                    <div class="complexity-item">
-+                        <div class="complexity-item-label">時間複雜度</div>
-+                        <div class="complexity-item-value">O(n log n)</div>
-+                    </div>
-+                    <div class="complexity-item">
-+                        <div class="complexity-item-label">空間複雜度</div>
-+                        <div class="complexity-item-value">O(n)</div>
-+                    </div>
-+                </div>
-+            </div>
-+
-+            <div class="card">
-+                <h2>💻 程式碼範例</h2>
-+
-+                <div class="language-selector">
-+                    <button class="language-btn active" onclick="switchLanguage('js', event)">JavaScript</button>
-+                    <button class="language-btn" onclick="switchLanguage('py', event)">Python</button>
-+                    <button class="language-btn" onclick="switchLanguage('cpp', event)">C++</button>
-+                    <button class="language-btn" onclick="switchLanguage('c', event)">C</button>
-+                </div>
-+
-+                <div id="jsCode" class="code-block" style="display:block;">
-+<span class="code-line" id="js-1"><span style="color:#64b5f6;">function</span> mergeSort(arr, left = 0, right = arr.length - 1) {</span>
-+<span class="code-line" id="js-2">    <span style="color:#ffd700;">if</span> (left &gt;= right) <span style="color:#ffd700;">return</span>;</span>
-+<span class="code-line" id="js-3">    <span style="color:#64b5f6;">const</span> mid = Math.floor((left + right) / 2);</span>
-+<span class="code-line" id="js-4">    mergeSort(arr, left, mid);</span>
-+<span class="code-line" id="js-5">    mergeSort(arr, mid + 1, right);</span>
-+<span class="code-line" id="js-6">    merge(arr, left, mid, right);</span>
-+<span class="code-line" id="js-7">}</span>
-+<span class="code-line" id="js-8"></span>
-+<span class="code-line" id="js-9"><span style="color:#64b5f6;">function</span> merge(arr, left, mid, right) {</span>
-+<span class="code-line" id="js-10">    <span style="color:#64b5f6;">const</span> leftPart = arr.slice(left, mid + 1);</span>
-+<span class="code-line" id="js-11">    <span style="color:#64b5f6;">const</span> rightPart = arr.slice(mid + 1, right + 1);</span>
-+<span class="code-line" id="js-12">    <span style="color:#64b5f6;">let</span> i = 0, j = 0, k = left;</span>
-+<span class="code-line" id="js-13">    <span style="color:#ffd700;">while</span> (i &lt; leftPart.length &amp;&amp; j &lt; rightPart.length) {</span>
-+<span class="code-line" id="js-14">        arr[k++] = leftPart[i] &lt;= rightPart[j] ? leftPart[i++] : rightPart[j++];</span>
-+<span class="code-line" id="js-15">    }</span>
-+<span class="code-line" id="js-16">    <span style="color:#ffd700;">while</span> (i &lt; leftPart.length) arr[k++] = leftPart[i++];</span>
-+<span class="code-line" id="js-17">    <span style="color:#ffd700;">while</span> (j &lt; rightPart.length) arr[k++] = rightPart[j++];</span>
-+<span class="code-line" id="js-18">}</span>
-+                </div>
-+
-+                <div id="pyCode" class="code-block" style="display:none;">
-+<span class="code-line" id="py-1"><span style="color:#64b5f6;">def</span> merge_sort(arr, left, right):</span>
-+<span class="code-line" id="py-2">    <span style="color:#ffd700;">if</span> left &gt;= right:</span>
-+<span class="code-line" id="py-3">        <span style="color:#ffd700;">return</span></span>
-+<span class="code-line" id="py-4">    mid = (left + right) // 2</span>
-+<span class="code-line" id="py-5">    merge_sort(arr, left, mid)</span>
-+<span class="code-line" id="py-6">    merge_sort(arr, mid + 1, right)</span>
-+<span class="code-line" id="py-7">    merge(arr, left, mid, right)</span>
-+<span class="code-line" id="py-8"></span>
-+<span class="code-line" id="py-9"><span style="color:#64b5f6;">def</span> merge(arr, left, mid, right):</span>
-+<span class="code-line" id="py-10">    left_part = arr[left:mid + 1]</span>
-+<span class="code-line" id="py-11">    right_part = arr[mid + 1:right + 1]</span>
-+<span class="code-line" id="py-12">    i = j = 0</span>
-+<span class="code-line" id="py-13">    k = left</span>
-+<span class="code-line" id="py-14">    <span style="color:#ffd700;">while</span> i &lt; len(left_part) <span style="color:#ffd700;">and</span> j &lt; len(right_part):</span>
-+<span class="code-line" id="py-15">        <span style="color:#ffd700;">if</span> left_part[i] &lt;= right_part[j]:</span>
-+<span class="code-line" id="py-16">            arr[k] = left_part[i]</span>
-+<span class="code-line" id="py-17">            i += 1</span>
-+<span class="code-line" id="py-18">        <span style="color:#ffd700;">else</span>:</span>
-+<span class="code-line" id="py-19">            arr[k] = right_part[j]</span>
-+<span class="code-line" id="py-20">            j += 1</span>
-+<span class="code-line" id="py-21">        k += 1</span>
-+<span class="code-line" id="py-22">    <span style="color:#ffd700;">while</span> i &lt; len(left_part):</span>
-+<span class="code-line" id="py-23">        arr[k] = left_part[i]</span>
-+<span class="code-line" id="py-24">        i += 1</span>
-+<span class="code-line" id="py-25">        k += 1</span>
-+<span class="code-line" id="py-26">    <span style="color:#ffd700;">while</span> j &lt; len(right_part):</span>
-+<span class="code-line" id="py-27">        arr[k] = right_part[j]</span>
-+<span class="code-line" id="py-28">        j += 1</span>
-+<span class="code-line" id="py-29">        k += 1</span>
-+                </div>
-+
-+                <div id="cppCode" class="code-block" style="display:none;">
-+<span class="code-line" id="cpp-1"><span style="color:#64b5f6;">void</span> mergeSort(vector&lt;<span style="color:#64b5f6;">int</span>&gt;&amp; arr, <span style="color:#64b5f6;">int</span> left, <span style="color:#64b5f6;">int</span> right) {</span>
-+<span class="code-line" id="cpp-2">    <span style="color:#ffd700;">if</span> (left &gt;= right) <span style="color:#ffd700;">return</span>;</span>
-+<span class="code-line" id="cpp-3">    <span style="color:#64b5f6;">int</span> mid = (left + right) / 2;</span>
-+<span class="code-line" id="cpp-4">    mergeSort(arr, left, mid);</span>
-+<span class="code-line" id="cpp-5">    mergeSort(arr, mid + 1, right);</span>
-+<span class="code-line" id="cpp-6">    merge(arr, left, mid, right);</span>
-+<span class="code-line" id="cpp-7">}</span>
-+<span class="code-line" id="cpp-8"></span>
-+<span class="code-line" id="cpp-9"><span style="color:#64b5f6;">void</span> merge(vector&lt;<span style="color:#64b5f6;">int</span>&gt;&amp; arr, <span style="color:#64b5f6;">int</span> left, <span style="color:#64b5f6;">int</span> mid, <span style="color:#64b5f6;">int</span> right) {</span>
-+<span class="code-line" id="cpp-10">    vector&lt;<span style="color:#64b5f6;">int</span>&gt; leftPart(arr.begin() + left, arr.begin() + mid + 1);</span>
-+<span class="code-line" id="cpp-11">    vector&lt;<span style="color:#64b5f6;">int</span>&gt; rightPart(arr.begin() + mid + 1, arr.begin() + right + 1);</span>
-+<span class="code-line" id="cpp-12">    <span style="color:#64b5f6;">int</span> i = 0, j = 0, k = left;</span>
-+<span class="code-line" id="cpp-13">    <span style="color:#ffd700;">while</span> (i &lt; leftPart.size() &amp;&amp; j &lt; rightPart.size()) {</span>
-+<span class="code-line" id="cpp-14">        arr[k++] = leftPart[i] &lt;= rightPart[j] ? leftPart[i++] : rightPart[j++];</span>
-+<span class="code-line" id="cpp-15">    }</span>
-+<span class="code-line" id="cpp-16">    <span style="color:#ffd700;">while</span> (i &lt; leftPart.size()) arr[k++] = leftPart[i++];</span>
-+<span class="code-line" id="cpp-17">    <span style="color:#ffd700;">while</span> (j &lt; rightPart.size()) arr[k++] = rightPart[j++];</span>
-+<span class="code-line" id="cpp-18">}</span>
-+                </div>
-+
-+                <div id="cCode" class="code-block" style="display:none;">
-+<span class="code-line" id="c-1"><span style="color:#64b5f6;">void</span> mergeSort(<span style="color:#64b5f6;">int</span> arr[], <span style="color:#64b5f6;">int</span> left, <span style="color:#64b5f6;">int</span> right) {</span>
-+<span class="code-line" id="c-2">    <span style="color:#ffd700;">if</span> (left &gt;= right) <span style="color:#ffd700;">return</span>;</span>
-+<span class="code-line" id="c-3">    <span style="color:#64b5f6;">int</span> mid = (left + right) / 2;</span>
-+<span class="code-line" id="c-4">    mergeSort(arr, left, mid);</span>
-+<span class="code-line" id="c-5">    mergeSort(arr, mid + 1, right);</span>
-+<span class="code-line" id="c-6">    merge(arr, left, mid, right);</span>
-+<span class="code-line" id="c-7">}</span>
-+<span class="code-line" id="c-8"></span>
-+<span class="code-line" id="c-9"><span style="color:#64b5f6;">void</span> merge(<span style="color:#64b5f6;">int</span> arr[], <span style="color:#64b5f6;">int</span> left, <span style="color:#64b5f6;">int</span> mid, <span style="color:#64b5f6;">int</span> right) {</span>
-+<span class="code-line" id="c-10">    <span style="color:#64b5f6;">int</span> n1 = mid - left + 1, n2 = right - mid;</span>
-+<span class="code-line" id="c-11">    <span style="color:#64b5f6;">int</span> leftPart[100], rightPart[100];</span>
-+<span class="code-line" id="c-12">    <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">int</span> i = 0; i &lt; n1; i++) leftPart[i] = arr[left + i];</span>
-+<span class="code-line" id="c-13">    <span style="color:#ffd700;">for</span> (<span style="color:#64b5f6;">int</span> j = 0; j &lt; n2; j++) rightPart[j] = arr[mid + 1 + j];</span>
-+<span class="code-line" id="c-14">    <span style="color:#64b5f6;">int</span> i = 0, j = 0, k = left;</span>
-+<span class="code-line" id="c-15">    <span style="color:#ffd700;">while</span> (i &lt; n1 &amp;&amp; j &lt; n2) {</span>
-+<span class="code-line" id="c-16">        arr[k++] = (leftPart[i] &lt;= rightPart[j]) ? leftPart[i++] : rightPart[j++];</span>
-+<span class="code-line" id="c-17">    }</span>
-+<span class="code-line" id="c-18">    <span style="color:#ffd700;">while</span> (i &lt; n1) arr[k++] = leftPart[i++];</span>
-+<span class="code-line" id="c-19">    <span style="color:#ffd700;">while</span> (j &lt; n2) arr[k++] = rightPart[j++];</span>
-+<span class="code-line" id="c-20">}</span>
-+                </div>
-+            </div>
-+        </div>
-+
-+        <div class="card">
-+            <h2>🪜 合併排序流程</h2>
-+            <ol style="margin: 15px 0 15px 25px; color: #e0e0e0;">
-+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">分割陣列</strong>：把區間 `[left, right]` 持續切成左右兩半。</li>
-+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">遞迴到底</strong>：當區間只剩一個元素時，它本身就已經有序。</li>
-+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">比較左右子陣列</strong>：將較小值依序放回原陣列。</li>
-+                <li style="margin-bottom: 10px;"><strong style="color:#00d4ff;">補上剩餘元素</strong>：若某一邊先取完，就把另一邊剩下的值接到後面。</li>
-+                <li><strong style="color:#00d4ff;">完成排序</strong>：所有子問題合併後，整個陣列就會有序。</li>
-+            </ol>
-+        </div>
-+    </div>
-+
-+    <script>
-+        let currentArray = [];
-+        let sortSteps = [];
-+        let currentStepIndex = 0;
-+
-+        class SortStep {
-+            constructor(description, title, details, comparingIndices = [], mergingIndices = [], sortedIndices = [], highlightLines = []) {
-+                this.description = description;
-+                this.title = title;
-+                this.details = details;
-+                this.comparingIndices = comparingIndices;
-+                this.mergingIndices = mergingIndices;
-+                this.sortedIndices = sortedIndices;
-+                this.highlightLines = highlightLines;
-+                this.arrayState = [...currentArray];
-+            }
-+        }
-+
-+        function parseInput() {
-+            const input = document.getElementById('arrayInput').value;
-+            if (!input.trim()) {
-+                showError('請先輸入資料。');
-+                return null;
-+            }
-+
-+            try {
-+                const arr = input.split(',').map((item) => {
-+                    const num = parseInt(item.trim(), 10);
-+                    if (Number.isNaN(num)) {
-+                        throw new Error('資料中包含非整數。');
-+                    }
-+                    return num;
-+                });
-+
-+                if (arr.length > 20) {
-+                    showError('最多只示範 20 個數字。');
-+                    return null;
-+                }
-+
-+                return arr;
-+            } catch (error) {
-+                showError('輸入格式錯誤：' + error.message);
-+                return null;
-+            }
-+        }
-+
-+        function addStep(description, title, details, comparingIndices = [], mergingIndices = [], sortedIndices = [], highlightLines = []) {
-+            sortSteps.push(new SortStep(description, title, details, comparingIndices, mergingIndices, sortedIndices, highlightLines));
-+        }
-+
-+        function generateSortSteps() {
-+            sortSteps = [];
-+            const sortedIndices = [];
-+
-+            addStep(
-+                '開始進行合併排序，先從整個陣列範圍出發。',
-+                '初始化',
-+                `原始資料: [${currentArray.join(', ')}]`,
-+                [],
-+                [],
-+                [],
-+                ['js-1', 'py-1', 'cpp-1', 'c-1']
-+            );
-+
-+            function mergeSort(left, right) {
-+                addStep(
-+                    `準備處理區間 [${left}, ${right}]。`,
-+                    `切分區間 [${left}, ${right}]`,
-+                    left === right ? `只剩一個元素 ${currentArray[left]}，不用再切。` : `middle = ${Math.floor((left + right) / 2)}`,
-+                    [],
-+                    createRange(left, right),
-+                    [...sortedIndices],
-+                    ['js-2', 'js-3', 'py-2', 'py-4', 'cpp-2', 'cpp-3', 'c-2', 'c-3']
-+                );
-+
-+                if (left >= right) {
-+                    return;
-+                }
-+
-+                const mid = Math.floor((left + right) / 2);
-+
-+                addStep(
-+                    `先遞迴處理左半部 [${left}, ${mid}]。`,
-+                    '進入左半部',
-+                    `mergeSort(arr, ${left}, ${mid})`,
-+                    [],
-+                    createRange(left, mid),
-+                    [...sortedIndices],
-+                    ['js-4', 'py-5', 'cpp-4', 'c-4']
-+                );
-+                mergeSort(left, mid);
-+
-+                addStep(
-+                    `接著遞迴處理右半部 [${mid + 1}, ${right}]。`,
-+                    '進入右半部',
-+                    `mergeSort(arr, ${mid + 1}, ${right})`,
-+                    [],
-+                    createRange(mid + 1, right),
-+                    [...sortedIndices],
-+                    ['js-5', 'py-6', 'cpp-5', 'c-5']
-+                );
-+                mergeSort(mid + 1, right);
-+
-+                merge(left, mid, right);
-+
-+                if (left === 0 && right === currentArray.length - 1) {
-+                    for (let i = 0; i < currentArray.length; i++) {
-+                        if (!sortedIndices.includes(i)) {
-+                            sortedIndices.push(i);
-+                        }
-+                    }
-+                }
-+            }
-+
-+            function merge(left, mid, right) {
-+                const leftPart = currentArray.slice(left, mid + 1);
-+                const rightPart = currentArray.slice(mid + 1, right + 1);
-+
-+                addStep(
-+                    `左右子陣列都已就緒，開始合併 [${left}, ${mid}] 與 [${mid + 1}, ${right}]。`,
-+                    `合併區間 [${left}, ${right}]`,
-+                    `leftPart = [${leftPart.join(', ')}], rightPart = [${rightPart.join(', ')}]`,
-+                    [],
-+                    createRange(left, right),
-+                    [...sortedIndices],
-+                    ['js-6', 'js-9', 'js-10', 'js-11', 'py-7', 'py-9', 'py-10', 'py-11', 'cpp-6', 'cpp-9', 'cpp-10', 'cpp-11', 'c-6', 'c-9', 'c-10', 'c-11', 'c-12', 'c-13']
-+                );
-+
-+                let i = 0;
-+                let j = 0;
-+                let k = left;
-+
-+                while (i < leftPart.length && j < rightPart.length) {
-+                    addStep(
-+                        `比較 leftPart[${i}] = ${leftPart[i]} 與 rightPart[${j}] = ${rightPart[j]}。`,
-+                        '比較左右元素',
-+                        `${leftPart[i]} ${leftPart[i] <= rightPart[j] ? '<=' : '>'} ${rightPart[j]}`,
-+                        [left + i, mid + 1 + j],
-+                        createRange(left, right),
-+                        [...sortedIndices],
-+                        ['js-13', 'js-14', 'py-14', 'py-15', 'py-18', 'cpp-13', 'cpp-14', 'c-15', 'c-16']
-+                    );
-+
-+                    if (leftPart[i] <= rightPart[j]) {
-+                        currentArray[k] = leftPart[i];
-+                        addStep(
-+                            `將 ${leftPart[i]} 放到位置 ${k}。`,
-+                            '寫回左側元素',
-+                            `arr[${k}] = ${leftPart[i]}`,
-+                            [k],
-+                            createRange(left, k),
-+                            [...sortedIndices],
-+                            ['js-14', 'py-15', 'py-16', 'py-17', 'cpp-14', 'c-16']
-+                        );
-+                        i++;
-+                    } else {
-+                        currentArray[k] = rightPart[j];
-+                        addStep(
-+                            `將 ${rightPart[j]} 放到位置 ${k}。`,
-+                            '寫回右側元素',
-+                            `arr[${k}] = ${rightPart[j]}`,
-+                            [k],
-+                            createRange(left, k),
-+                            [...sortedIndices],
-+                            ['js-14', 'py-18', 'py-19', 'py-20', 'cpp-14', 'c-16']
-+                        );
-+                        j++;
-+                    }
-+                    k++;
-+                }
-+
-+                while (i < leftPart.length) {
-+                    currentArray[k] = leftPart[i];
-+                    addStep(
-+                        `右半部取完，補上左半部剩餘的 ${leftPart[i]} 到位置 ${k}。`,
-+                        '補上左半部',
-+                        `arr[${k}] = ${leftPart[i]}`,
-+                        [k],
-+                        createRange(left, k),
-+                        [...sortedIndices],
-+                        ['js-16', 'py-22', 'py-23', 'py-24', 'cpp-16', 'c-18']
-+                    );
-+                    i++;
-+                    k++;
-+                }
-+
-+                while (j < rightPart.length) {
-+                    currentArray[k] = rightPart[j];
-+                    addStep(
-+                        `左半部取完，補上右半部剩餘的 ${rightPart[j]} 到位置 ${k}。`,
-+                        '補上右半部',
-+                        `arr[${k}] = ${rightPart[j]}`,
-+                        [k],
-+                        createRange(left, k),
-+                        [...sortedIndices],
-+                        ['js-17', 'py-26', 'py-27', 'py-28', 'cpp-17', 'c-19']
-+                    );
-+                    j++;
-+                    k++;
-+                }
-+
-+                if (left === 0 && right === currentArray.length - 1) {
-+                    for (let index = left; index <= right; index++) {
-+                        if (!sortedIndices.includes(index)) {
-+                            sortedIndices.push(index);
-+                        }
-+                    }
-+                }
-+
-+                addStep(
-+                    `區間 [${left}, ${right}] 已合併完成。`,
-+                    `完成區間 [${left}, ${right}]`,
-+                    `目前陣列: [${currentArray.join(', ')}]`,
-+                    [],
-+                    createRange(left, right),
-+                    [...sortedIndices],
-+                    ['js-18', 'py-29', 'cpp-18', 'c-20']
-+                );
-+            }
-+
-+            mergeSort(0, currentArray.length - 1);
-+
-+            addStep(
-+                '整個陣列已完成排序。',
-+                '排序完成',
-+                `最終結果: [${currentArray.join(', ')}]`,
-+                [],
-+                [],
-+                createRange(0, currentArray.length - 1),
-+                ['js-7', 'py-7', 'cpp-7', 'c-7']
-+            );
-+        }
-+
-+        function createRange(start, end) {
-+            const result = [];
-+            for (let i = start; i <= end; i++) {
-+                result.push(i);
-+            }
-+            return result;
-+        }
-+
-+        function startDemo() {
-+            const arr = parseInput();
-+            if (!arr) return;
-+
-+            currentArray = [...arr];
-+            currentStepIndex = 0;
-+            generateSortSteps();
-+
-+            document.getElementById('stepInfo').style.display = 'block';
-+            document.getElementById('stepCounter').style.display = 'block';
-+            document.getElementById('prevBtn').style.display = 'block';
-+            document.getElementById('nextBtn').style.display = 'block';
-+            document.getElementById('resultBox').style.display = 'none';
-+
-+            displayStep(0);
-+        }
-+
-+        function displayStep(index) {
-+            if (index < 0 || index >= sortSteps.length) return;
-+
-+            currentStepIndex = index;
-+            const step = sortSteps[index];
-+
-+            drawBars(step.arrayState, step.comparingIndices, step.mergingIndices, step.sortedIndices);
-+            document.getElementById('stepTitle').textContent = step.title;
-+            document.getElementById('stepDescription').textContent = step.description;
-+            document.getElementById('stepDetails').textContent = step.details;
-+            document.getElementById('currentStep').textContent = index + 1;
-+            document.getElementById('totalSteps').textContent = sortSteps.length;
-+            document.getElementById('prevBtn').disabled = index === 0;
-+            document.getElementById('nextBtn').disabled = index === sortSteps.length - 1;
-+
-+            highlightCode(step.highlightLines);
-+
-+            if (index === sortSteps.length - 1) {
-+                document.getElementById('resultBox').classList.remove('error');
-+                document.getElementById('resultBox').style.display = 'block';
-+                document.getElementById('resultText').textContent = '排序完成：' + step.details;
-+            }
-+        }
-+
-+        function nextStep() {
-+            if (currentStepIndex < sortSteps.length - 1) {
-+                displayStep(currentStepIndex + 1);
-+            }
-+        }
-+
-+        function previousStep() {
-+            if (currentStepIndex > 0) {
-+                displayStep(currentStepIndex - 1);
-+            }
-+        }
-+
-+        function drawBars(arr, comparing = [], merging = [], sorted = []) {
-+            const visualization = document.getElementById('visualization');
-+            visualization.innerHTML = '';
-+
-+            const max = Math.max(...arr);
-+            const min = Math.min(...arr);
-+            const range = max - min || 1;
-+
-+            arr.forEach((value, index) => {
-+                const bar = document.createElement('div');
-+                bar.className = 'bar';
-+                bar.style.height = (((value - min + 1) / (range + 1)) * 100) + '%';
-+                bar.textContent = value;
-+
-+                if (sorted.includes(index)) {
-+                    bar.classList.add('sorted');
-+                } else if (comparing.includes(index)) {
-+                    bar.classList.add('comparing');
-+                } else if (merging.includes(index)) {
-+                    bar.classList.add('merging');
-+                }
-+
-+                visualization.appendChild(bar);
-+            });
-+        }
-+
-+        function highlightCode(lineIds) {
-+            document.querySelectorAll('.code-line').forEach((line) => {
-+                line.classList.remove('highlight');
-+            });
-+
-+            lineIds.forEach((id) => {
-+                const element = document.getElementById(id);
-+                if (element) {
-+                    element.classList.add('highlight');
-+                }
-+            });
-+        }
-+
-+        function switchLanguage(lang, event) {
-+            document.querySelectorAll('.language-btn').forEach((btn) => {
-+                btn.classList.remove('active');
-+            });
-+            event.target.classList.add('active');
-+
-+            document.getElementById('jsCode').style.display = lang === 'js' ? 'block' : 'none';
-+            document.getElementById('pyCode').style.display = lang === 'py' ? 'block' : 'none';
-+            document.getElementById('cppCode').style.display = lang === 'cpp' ? 'block' : 'none';
-+            document.getElementById('cCode').style.display = lang === 'c' ? 'block' : 'none';
-+
-+            if (sortSteps.length > 0 && currentStepIndex < sortSteps.length) {
-+                highlightCode(sortSteps[currentStepIndex].highlightLines);
-+            }
-+        }
-+
-+        function showError(message) {
-+            const resultBox = document.getElementById('resultBox');
-+            resultBox.classList.add('error');
-+            resultBox.style.display = 'block';
-+            document.getElementById('resultText').textContent = '錯誤：' + message;
-+        }
-+
-+        function resetDemo() {
-+            document.getElementById('arrayInput').value = '5,2,8,1,9,3';
-+            currentArray = [];
-+            sortSteps = [];
-+            currentStepIndex = 0;
-+            document.getElementById('stepInfo').style.display = 'none';
-+            document.getElementById('stepCounter').style.display = 'none';
-+            document.getElementById('prevBtn').style.display = 'none';
-+            document.getElementById('nextBtn').style.display = 'none';
-+            document.getElementById('resultBox').style.display = 'none';
-+            document.getElementById('resultBox').classList.remove('error');
-+            document.getElementById('visualization').innerHTML = '';
-+            document.querySelectorAll('.code-line').forEach((line) => {
-+                line.classList.remove('highlight');
-+            });
-+        }
-+
-+        window.addEventListener('DOMContentLoaded', () => {
-+            resetDemo();
-+        });
-+    </script>
-+</body>
-+</html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合併排序 - 程式教學</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #e0e0e0; line-height: 1.6; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; padding: 30px 0; border-bottom: 3px solid #00d4ff; }
+        h1 { font-size: 2.5em; color: #00d4ff; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+        .subtitle { color: #b0b0b0; font-size: 1.1em; }
+        .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+        .card, .demo-section { background: rgba(30, 30, 50, 0.8); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 10px; padding: 25px; box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1); backdrop-filter: blur(10px); }
+        h2 { color: #00d4ff; margin-bottom: 15px; font-size: 1.8em; border-left: 4px solid #00d4ff; padding-left: 15px; }
+        h3 { color: #64b5f6; margin: 15px 0 10px; font-size: 1.3em; }
+        .input-group, .controls, .step-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        input { flex: 1; min-width: 150px; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.5); border-radius: 5px; color: #e0e0e0; font-size: 1em; }
+        button { padding: 12px 25px; background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%); color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold; }
+        button:disabled { background: #666; cursor: not-allowed; opacity: 0.6; }
+        .visualization { display: flex; align-items: flex-end; justify-content: center; gap: 5px; height: 250px; background: rgba(0, 0, 0, 0.3); border-radius: 5px; padding: 20px; margin-bottom: 20px; }
+        .bar { flex: 1; min-width: 30px; display: flex; align-items: flex-end; justify-content: center; font-size: 0.7em; color: white; padding-bottom: 5px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, #00d4ff 0%, #0084ff 100%); }
+        .bar.comparing { background: linear-gradient(180deg, #ffc107 0%, #ff9800 100%); }
+        .bar.merging { background: linear-gradient(180deg, #ab47bc 0%, #7b1fa2 100%); }
+        .bar.sorted { background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%); }
+        .step-info, .code-block, .complexity-item { background: rgba(0, 0, 0, 0.3); border-radius: 5px; }
+        .step-info { border: 1px solid rgba(0, 212, 255, 0.3); padding: 15px; margin-bottom: 20px; }
+        .step-title { color: #00d4ff; font-weight: bold; margin-bottom: 8px; }
+        .step-description { color: #b0b0b0; margin-bottom: 8px; }
+        .step-details, .code-block { font-family: 'Courier New', monospace; font-size: 0.9em; color: #64b5f6; }
+        .step-details { padding: 10px; }
+        .step-counter { background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 5px; padding: 10px 15px; color: #00d4ff; font-weight: bold; min-width: 120px; text-align: center; }
+        .result-box { background: rgba(76, 175, 80, 0.2); border: 1px solid rgba(76, 175, 80, 0.5); border-radius: 5px; padding: 20px; margin-top: 20px; text-align: center; display: none; }
+        .result-box.error { background: rgba(244, 67, 54, 0.2); border-color: rgba(244, 67, 54, 0.5); }
+        .code-block { border-left: 4px solid #00d4ff; padding: 15px; white-space: pre-wrap; }
+        .code-line.highlight { color: #ffd700; font-weight: bold; }
+        .complexity-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .complexity-item { border: 1px solid rgba(0, 212, 255, 0.3); padding: 15px; text-align: center; }
+        .complexity-item-label { color: #64b5f6; font-size: 0.9em; margin-bottom: 5px; }
+        .complexity-item-value { color: #ffd700; font-size: 1.5em; font-weight: bold; font-family: 'Courier New', monospace; }
+        @media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { h1 { font-size: 1.8em; } .visualization { height: 200px; } .input-group { flex-direction: column; } input { min-width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>合併排序 (Merge Sort)</h1>
+            <p class="subtitle">比照 `select-sort.html` 的互動模式，逐步展示分割與合併的排序過程。</p>
+        </header>
+
+        <div class="demo-section">
+            <h2>互動示範</h2>
+            <div class="input-group">
+                <input type="text" id="arrayInput" value="5,2,8,1,9,3" placeholder="請輸入整數，以逗號分隔，例如 5,2,8,1,9,3">
+            </div>
+            <div class="controls">
+                <button onclick="startDemo()">開始排序</button>
+                <button onclick="resetDemo()">重設</button>
+            </div>
+            <div class="visualization" id="visualization"></div>
+            <div class="step-info" id="stepInfo" style="display:none;">
+                <div class="step-title" id="stepTitle"></div>
+                <div class="step-description" id="stepDescription"></div>
+                <div class="step-details" id="stepDetails"></div>
+            </div>
+            <div class="step-controls">
+                <button id="prevBtn" onclick="previousStep()" style="display:none;">上一個步驟</button>
+                <div class="step-counter" id="stepCounter" style="display:none;">步驟 <span id="currentStep">0</span> / <span id="totalSteps">0</span></div>
+                <button id="nextBtn" onclick="nextStep()" style="display:none;">下一個步驟</button>
+            </div>
+            <div class="result-box" id="resultBox"><p id="resultText"></p></div>
+        </div>
+
+        <div class="main-layout">
+            <div class="card">
+                <h2>演算法說明</h2>
+                <p>合併排序採用分治法，先把陣列切成左右兩半，直到每段只剩一個元素，再把小段依序合併成有序結果。</p>
+                <ul style="margin: 15px 0 15px 25px;">
+                    <li>先分割陣列。</li>
+                    <li>遞迴排序左右子陣列。</li>
+                    <li>比較左右兩邊的最前端元素並合併。</li>
+                </ul>
+                <h3>複雜度</h3>
+                <div class="complexity-info">
+                    <div class="complexity-item">
+                        <div class="complexity-item-label">時間複雜度</div>
+                        <div class="complexity-item-value">O(n log n)</div>
+                    </div>
+                    <div class="complexity-item">
+                        <div class="complexity-item-label">空間複雜度</div>
+                        <div class="complexity-item-value">O(n)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>程式碼範例</h2>
+                <div class="code-block" id="codeBlock">
+<span class="code-line" id="line-1">function mergeSort(arr, left = 0, right = arr.length - 1) {</span>
+<span class="code-line" id="line-2">  if (left &gt;= right) return;</span>
+<span class="code-line" id="line-3">  const mid = Math.floor((left + right) / 2);</span>
+<span class="code-line" id="line-4">  mergeSort(arr, left, mid);</span>
+<span class="code-line" id="line-5">  mergeSort(arr, mid + 1, right);</span>
+<span class="code-line" id="line-6">  merge(arr, left, mid, right);</span>
+<span class="code-line" id="line-7">}</span>
+<span class="code-line" id="line-8"></span>
+<span class="code-line" id="line-9">function merge(arr, left, mid, right) {</span>
+<span class="code-line" id="line-10">  const leftPart = arr.slice(left, mid + 1);</span>
+<span class="code-line" id="line-11">  const rightPart = arr.slice(mid + 1, right + 1);</span>
+<span class="code-line" id="line-12">  let i = 0, j = 0, k = left;</span>
+<span class="code-line" id="line-13">  while (i &lt; leftPart.length &amp;&amp; j &lt; rightPart.length) {</span>
+<span class="code-line" id="line-14">    arr[k++] = leftPart[i] &lt;= rightPart[j] ? leftPart[i++] : rightPart[j++];</span>
+<span class="code-line" id="line-15">  }</span>
+<span class="code-line" id="line-16">  while (i &lt; leftPart.length) arr[k++] = leftPart[i++];</span>
+<span class="code-line" id="line-17">  while (j &lt; rightPart.length) arr[k++] = rightPart[j++];</span>
+<span class="code-line" id="line-18">}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>流程摘要</h2>
+            <ol style="margin: 15px 0 15px 25px;">
+                <li>將區間 `[left, right]` 持續切成左右兩半。</li>
+                <li>當區間只剩一個元素時停止切分。</li>
+                <li>回溯時比較左右子陣列，逐步寫回原陣列。</li>
+                <li>最後整個陣列完成排序。</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let currentArray = [];
+        let sortSteps = [];
+        let currentStepIndex = 0;
+
+        class SortStep {
+            constructor(title, description, details, comparing = [], merging = [], sorted = [], lines = []) {
+                this.title = title;
+                this.description = description;
+                this.details = details;
+                this.comparing = comparing;
+                this.merging = merging;
+                this.sorted = sorted;
+                this.lines = lines;
+                this.arrayState = [...currentArray];
+            }
+        }
+
+        function createRange(start, end) {
+            const items = [];
+            for (let i = start; i <= end; i++) items.push(i);
+            return items;
+        }
+
+        function addStep(title, description, details, comparing = [], merging = [], sorted = [], lines = []) {
+            sortSteps.push(new SortStep(title, description, details, comparing, merging, sorted, lines));
+        }
+
+        function parseInput() {
+            const input = document.getElementById('arrayInput').value.trim();
+            if (!input) {
+                showError('請先輸入資料。');
+                return null;
+            }
+            try {
+                const arr = input.split(',').map((item) => {
+                    const num = parseInt(item.trim(), 10);
+                    if (Number.isNaN(num)) throw new Error('資料中包含非整數。');
+                    return num;
+                });
+                if (arr.length > 20) throw new Error('最多只示範 20 個數字。');
+                return arr;
+            } catch (error) {
+                showError(error.message);
+                return null;
+            }
+        }
+
+        function generateSortSteps() {
+            sortSteps = [];
+            addStep('初始化', '從整個陣列開始進行合併排序。', `原始資料: [${currentArray.join(', ')}]`, [], [], [], ['line-1']);
+
+            function mergeSort(left, right) {
+                addStep(`切分區間 [${left}, ${right}]`, '將目前區間拆成更小的問題。', left === right ? `只剩一個元素 ${currentArray[left]}` : `mid = ${Math.floor((left + right) / 2)}`, [], createRange(left, right), [], ['line-2', 'line-3']);
+                if (left >= right) return;
+
+                const mid = Math.floor((left + right) / 2);
+                addStep('處理左半部', `遞迴處理 [${left}, ${mid}]`, `mergeSort(arr, ${left}, ${mid})`, [], createRange(left, mid), [], ['line-4']);
+                mergeSort(left, mid);
+                addStep('處理右半部', `遞迴處理 [${mid + 1}, ${right}]`, `mergeSort(arr, ${mid + 1}, ${right})`, [], createRange(mid + 1, right), [], ['line-5']);
+                mergeSort(mid + 1, right);
+                merge(left, mid, right);
+            }
+
+            function merge(left, mid, right) {
+                const leftPart = currentArray.slice(left, mid + 1);
+                const rightPart = currentArray.slice(mid + 1, right + 1);
+                addStep(`合併區間 [${left}, ${right}]`, '左右子陣列都已就緒，開始合併。', `leftPart=[${leftPart.join(', ')}], rightPart=[${rightPart.join(', ')}]`, [], createRange(left, right), [], ['line-9', 'line-10', 'line-11', 'line-12']);
+
+                let i = 0, j = 0, k = left;
+                while (i < leftPart.length && j < rightPart.length) {
+                    addStep('比較左右元素', `比較 ${leftPart[i]} 和 ${rightPart[j]}`, `${leftPart[i]} ${leftPart[i] <= rightPart[j] ? '<=' : '>'} ${rightPart[j]}`, [left + i, mid + 1 + j], createRange(left, right), [], ['line-13', 'line-14']);
+                    currentArray[k++] = leftPart[i] <= rightPart[j] ? leftPart[i++] : rightPart[j++];
+                }
+                while (i < leftPart.length) currentArray[k++] = leftPart[i++];
+                while (j < rightPart.length) currentArray[k++] = rightPart[j++];
+
+                const sorted = left === 0 && right === currentArray.length - 1 ? createRange(0, currentArray.length - 1) : [];
+                addStep(`完成區間 [${left}, ${right}]`, '這一段已經排好。', `目前陣列: [${currentArray.join(', ')}]`, [], createRange(left, right), sorted, ['line-16', 'line-17', 'line-18']);
+            }
+
+            mergeSort(0, currentArray.length - 1);
+            addStep('排序完成', '整個陣列已完成排序。', `最終結果: [${currentArray.join(', ')}]`, [], [], createRange(0, currentArray.length - 1), ['line-7']);
+        }
+
+        function drawBars(arr, comparing = [], merging = [], sorted = []) {
+            const visualization = document.getElementById('visualization');
+            visualization.innerHTML = '';
+            const max = Math.max(...arr), min = Math.min(...arr), range = max - min || 1;
+            arr.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = (((value - min + 1) / (range + 1)) * 100) + '%';
+                bar.textContent = value;
+                if (sorted.includes(index)) bar.classList.add('sorted');
+                else if (comparing.includes(index)) bar.classList.add('comparing');
+                else if (merging.includes(index)) bar.classList.add('merging');
+                visualization.appendChild(bar);
+            });
+        }
+
+        function highlightCode(lines) {
+            document.querySelectorAll('.code-line').forEach((line) => line.classList.remove('highlight'));
+            lines.forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('highlight');
+            });
+        }
+
+        function displayStep(index) {
+            if (index < 0 || index >= sortSteps.length) return;
+            currentStepIndex = index;
+            const step = sortSteps[index];
+            drawBars(step.arrayState, step.comparing, step.merging, step.sorted);
+            document.getElementById('stepTitle').textContent = step.title;
+            document.getElementById('stepDescription').textContent = step.description;
+            document.getElementById('stepDetails').textContent = step.details;
+            document.getElementById('currentStep').textContent = index + 1;
+            document.getElementById('totalSteps').textContent = sortSteps.length;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === sortSteps.length - 1;
+            highlightCode(step.lines);
+            if (index === sortSteps.length - 1) {
+                document.getElementById('resultBox').classList.remove('error');
+                document.getElementById('resultBox').style.display = 'block';
+                document.getElementById('resultText').textContent = '排序完成：' + step.details;
+            }
+        }
+
+        function startDemo() {
+            const arr = parseInput();
+            if (!arr) return;
+            currentArray = [...arr];
+            currentStepIndex = 0;
+            generateSortSteps();
+            document.getElementById('stepInfo').style.display = 'block';
+            document.getElementById('stepCounter').style.display = 'block';
+            document.getElementById('prevBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'block';
+            document.getElementById('resultBox').style.display = 'none';
+            displayStep(0);
+        }
+
+        function nextStep() { if (currentStepIndex < sortSteps.length - 1) displayStep(currentStepIndex + 1); }
+        function previousStep() { if (currentStepIndex > 0) displayStep(currentStepIndex - 1); }
+
+        function showError(message) {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.classList.add('error');
+            resultBox.style.display = 'block';
+            document.getElementById('resultText').textContent = '錯誤：' + message;
+        }
+
+        function resetDemo() {
+            document.getElementById('arrayInput').value = '5,2,8,1,9,3';
+            currentArray = [];
+            sortSteps = [];
+            currentStepIndex = 0;
+            document.getElementById('stepInfo').style.display = 'none';
+            document.getElementById('stepCounter').style.display = 'none';
+            document.getElementById('prevBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('resultBox').classList.remove('error');
+            document.getElementById('visualization').innerHTML = '';
+            document.querySelectorAll('.code-line').forEach((line) => line.classList.remove('highlight'));
+        }
+
+        window.addEventListener('DOMContentLoaded', resetDemo);
+    </script>
+</body>
+</html>
