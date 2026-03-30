@@ -6,22 +6,37 @@
     <title>排序演算法教學網站</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* 動態背景特效 */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         body {
             font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+            /* 將背景改為 400% 寬度並套用動畫，創造顏色緩慢流動的效果 */
+            background: linear-gradient(-45deg, #0f0f0f, #1a1a2e, #16213e, #0a192f);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden; /* 防止彩蛋出現時產生橫向捲軸 */
         }
+
         nav {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             border-bottom: 2px solid #00d4ff;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -30,36 +45,49 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-size: 1.8em;
             color: #00d4ff;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
         }
+        
+        .logo:active {
+            transform: scale(0.95);
+        }
+
         nav ul { display: flex; list-style: none; gap: 30px; }
         nav a { color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
         nav a:hover { color: #00d4ff; }
+        
         .hero {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             padding: 100px 20px;
             text-align: center;
         }
+        
         .hero-content { max-width: 1000px; margin: 0 auto; }
         .hero h1 {
             font-size: 3.5em;
             color: #00d4ff;
             margin-bottom: 20px;
             text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            transition: all 0.5s ease;
         }
         .hero p { font-size: 1.3em; color: #b0b0b0; margin-bottom: 40px; }
+        
         .cards-container {
             max-width: 1200px;
-            margin: 60px auto;
+            margin: 0 auto 60px;
             padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
+        
         .card {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 150, 200, 0.05) 100%);
             border: 2px solid rgba(0, 212, 255, 0.3);
@@ -72,19 +100,27 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        
         .card:hover {
             transform: translateY(-10px);
             border-color: #00d4ff;
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
         }
-        .card-icon { font-size: 3em; margin-bottom: 20px; }
+        
+        .card-icon { font-size: 3em; margin-bottom: 20px; transition: transform 0.3s ease; }
+        .card:hover .card-icon { transform: scale(1.2); }
         .card h2 { font-size: 1.8em; color: #00d4ff; margin-bottom: 15px; }
         .card p { color: #b0b0b0; margin-bottom: 18px; flex-grow: 1; }
+        
         .card .complexity {
             color: #81c784;
             font-weight: bold;
             margin-bottom: 20px;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 8px;
+            border-radius: 5px;
         }
+        
         .card a {
             display: inline-block;
             background: linear-gradient(135deg, #00d4ff 0%, #0096c8 100%);
@@ -96,22 +132,28 @@
             transition: all 0.3s ease;
             margin-top: auto;
         }
+        
         .card a:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
         }
+        
         .about {
             max-width: 1200px;
             margin: 0 auto 60px;
             padding: 0 20px;
         }
+        
         .about-box {
-            background: rgba(30, 30, 50, 0.8);
+            background: rgba(30, 30, 50, 0.6);
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 15px;
             padding: 30px;
+            backdrop-filter: blur(5px);
         }
+        
         .about-box h2 { color: #00d4ff; margin-bottom: 15px; }
+        
         footer {
             background: rgba(0, 0, 0, 0.8);
             border-top: 2px solid #00d4ff;
@@ -120,7 +162,9 @@
             color: #999;
             margin-top: 60px;
         }
+        
         footer p { margin: 5px 0; }
+        
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.2em; }
             nav ul { gap: 15px; }
@@ -130,7 +174,7 @@
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo">排序演算法</div>
+            <div class="logo" onclick="triggerEasterEgg()" title="點我 3 次看看！">排序演算法</div>
             <ul>
                 <li><a href="index.html">首頁</a></li>
                 <li><a href="#algorithms">演算法</a></li>
@@ -141,7 +185,7 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>排序演算法互動教學</h1>
+            <h1 id="main-title">排序演算法互動教學</h1>
             <p>用視覺化方式理解排序流程，從每一步的比較、交換到最終結果，一頁一頁學會常見排序法。</p>
         </div>
     </section>
@@ -152,7 +196,7 @@
             <h2>泡沫排序</h2>
             <p>透過相鄰元素反覆比較與交換，將較大的值慢慢推到陣列尾端。</p>
             <div class="complexity">時間複雜度：O(n²)</div>
-            <a href="bubble-sort.html">前往教學頁面</a>
+            <a href="bubble-sort.html">前往教學</a>
         </div>
 
         <div class="card">
@@ -160,15 +204,15 @@
             <h2>選擇排序</h2>
             <p>每一輪找出未排序區間中的最小值，再放到正確位置。</p>
             <div class="complexity">時間複雜度：O(n²)</div>
-            <a href="select-sort.html">前往教學頁面</a>
+            <a href="select-sort.html">前往教學</a>
         </div>
 
         <div class="card">
             <div class="card-icon">🃏</div>
             <h2>插入排序</h2>
-            <p>將未排序的元素逐一插入到已排序區間的正確位置，如同打撲克牌時整理手牌。</p>
+            <p>將未排序的元素逐一插入到已排序區間的正確位置，如同打撲克牌整理手牌。</p>
             <div class="complexity">時間複雜度：O(n²)</div>
-            <a href="insertion-sort.html">前往教學頁面</a>
+            <a href="insertion-sort.html">前往教學</a>
         </div>
 
         <div class="card">
@@ -176,23 +220,23 @@
             <h2>合併排序</h2>
             <p>先把問題拆成更小的子陣列，再逐步合併成有序結果，體驗分治法的思路。</p>
             <div class="complexity">時間複雜度：O(n log n)</div>
-            <a href="merge-sort.html">前往教學頁面</a>
+            <a href="merge-sort.html">前往教學</a>
         </div>
 
         <div class="card">
             <div class="card-icon">🌲</div>
             <h2>堆積排序</h2>
-            <p>利用完全二元樹（Max Heap）的特性，每次取出最大值放到陣列尾端，空間複雜度極佳。</p>
+            <p>利用完全二元樹（Max Heap）特性，每次取出最大值放到陣列尾端，空間極佳。</p>
             <div class="complexity">時間複雜度：O(n log n)</div>
-            <a href="heap-sort.html">前往教學頁面</a>
+            <a href="heap-sort.html">前往教學</a>
         </div>
 
         <div class="card">
             <div class="card-icon">⚡</div>
             <h2>快速排序</h2>
-            <p>選定一個基準值 (Pivot)，將陣列分為大於與小於兩半，遞迴處理，實務上最常用的排序法之一。</p>
+            <p>選定基準值 (Pivot) 將陣列分為兩半遞迴處理，實務上最常用的神級排序法。</p>
             <div class="complexity">時間複雜度：O(n log n)</div>
-            <a href="quick-sort.html">前往教學頁面</a>
+            <a href="quick-sort.html">前往教學</a>
         </div>
     </section>
 
@@ -205,7 +249,62 @@
 
     <footer>
         <p>&copy; 2026 排序演算法教學網站</p>
-        <p>包含泡沫、選擇、插入、合併、堆積與快速排序等 6 種經典排序演算法</p>
+        <p>包含泡沫、選擇、插入、合併、堆積與快速排序等 6 種經典演算法</p>
     </footer>
+
+    <script>
+        let clickCount = 0;
+        let isAnimating = false;
+
+        function triggerEasterEgg() {
+            if (isAnimating) return;
+            
+            clickCount++;
+            
+            // 點擊第二次時給點小暗示
+            if (clickCount === 2) {
+                const logo = document.querySelector('.logo');
+                logo.style.color = '#ffeb3b';
+                setTimeout(() => logo.style.color = '#00d4ff', 500);
+            }
+
+            // 點擊三次觸發特效
+            if (clickCount === 3) {
+                isAnimating = true;
+                const title = document.getElementById('main-title');
+                const originalText = title.innerText;
+                const originalColor = title.style.color;
+
+                // 更改大標題
+                title.innerText = "Vroom! 最佳化演算法就像開 F1 一樣快！ 🏁";
+                title.style.color = "#ffeb3b";
+                
+                // 創造賽車元素
+                const car = document.createElement('div');
+                car.innerText = '🏎️💨';
+                car.style.position = 'fixed';
+                car.style.fontSize = '80px';
+                car.style.bottom = '10%';
+                car.style.left = '-150px';
+                car.style.zIndex = '9999';
+                car.style.transition = 'left 1.5s cubic-bezier(0.5, 0, 0.1, 1)'; // 模擬加速衝刺的曲線
+                document.body.appendChild(car);
+
+                // 啟動賽車
+                setTimeout(() => {
+                    car.style.left = '120vw';
+                }, 50);
+
+                // 復原狀態
+                setTimeout(() => {
+                    car.remove();
+                    title.innerText = originalText;
+                    title.style.color = originalColor;
+                    clickCount = 0;
+                    isAnimating = false;
+                }, 2000);
+            }
+        }
+    </script>
 </body>
 </html>
